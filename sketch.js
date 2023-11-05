@@ -18,7 +18,7 @@ function genRundomColors() {
         for (let j = 0; j < cols; j++) {
             concentricCircleColors[i].push([]);
             for (let k = 0; k < concentricCircles; k++) {
-                concentricCircleColors[i][j].push(color(random(20,180), random(200,255), random(200,255)));
+                concentricCircleColors[i][j].push(color(random(20,255), random(200,255), random(200,255)));
             }
         }
     }
@@ -29,53 +29,87 @@ function getContrastColor(hexColor) {
     let r = red(c); 
     let g = green(c); 
     let b = blue(c); 
-    let contrastR = 255 - r + 100;
-    let contrastG = 255 - g + 100;
+    let contrastR = 255 - r + 150;
+    let contrastG = 255 - g + 50;
     let contrastB = 255 - b + 150;
     return color(contrastR, contrastG, contrastB);
 }
 //绘制波浪形状的圆
 function drawWaveCircle(i, j, k, radius) {
-    push();
-    rotate(frameCount / (50.0 / (j + 50))); //旋转速度
-    // 绘制波浪形状的圆
+    
+push();
+    rotate(frameCount / (50.0 / (j + 50))); // Rotation speed
     beginShape();
-    noFill();
-    stroke(getContrastColor(concentricCircleColors[i][j][k])); // 设置描边颜色
-    strokeWeight(1); 
+    
+   
+noFill();
+    stroke(getContrastColor(concentricCircleColors[i][j][k])); // Set stroke color
+    
+   
+strokeWeight(2);
     for (let angle = 0; angle < 360; angle += 0.5) {
-        let r = radius * 0.85 + 12 * sin(60 * angle); 
+        let r = radius * 0.8 + 8 * sin(40 * angle);
         let x = r * cos(angle);
         let y = r * sin(angle);
         vertex(x, y);
     }
     endShape(CLOSE);
-    beginShape();
-    strokeWeight(1); 
-    for (let angle = 0; angle < 360; angle += 0.5) {
-        let r = 38 + 8 * sin(60 * angle);
-        let x = r * cos(angle);
-        let y = r * sin(angle);
-        vertex(x, y);
+
+    if (radius > 40) {
+        
+       
+beginShape();
+        
+
+strokeWeight(10);
+        
+       
+for (let angle = 0; angle < 360; angle += 0.5) {
+            let r = 100 + sin(20 * angle);
+            let x = r * cos(angle);
+            let y = r * sin(angle);
+            
+           
+vertex(x, y);
+        }
+        endShape(CLOSE);
     }
-    endShape(CLOSE);
     pop();
 }
+
 //绘制虚线环
-function drawDottedCircle(i, j, k, radius) {
-    for (let n = 0; n < dottedCircles && k < concentricCircles - 1; n++) {
-        push();
-        rotate(frameCount / (50.0 / (k + 50))); // 旋转速度
-        stroke(getContrastColor(concentricCircleColors[i][j][k])); 
-        strokeWeight(7 - k); // 设置描边宽度
+function drawDottedCircle(i, j, k, radius, maxRadiusToShowDottedLine) {
+    
+   
+for (let n = 0; n < dottedCircles && k < concentricCircles - 1; n++) {
+        
+      
+push();      
+       
+rotate(frameCount / (50.0 / (k + 50))); // Rotation speed       
+       
+stroke(getContrastColor(concentricCircleColors[i][j][k])); 
+      
+strokeWeight(7 - k); // Set stroke weight
         noFill(); 
-        // 设置虚线样式，根据圆的索引改变虚线的间隔
-        drawingContext.setLineDash([3, 8.5 - k]);
-        ellipse(0, 0, radius * 2 - 10 - 20 * n); // 绘制同心圆，根据圆的索引改变半径
-        pop();
-        drawingContext.setLineDash([]); // 重置虚线样式
+        
+ //虚线和实线的条件变化            
+if (radius > 40) {
+           
+            drawingContext.setLineDash([3, 10 - k]);
+        } else {
+            drawingContext.setLineDash([])
+        }
+             
+        
+        ellipse(0, 0, radius * 2 - 10 - 20 * n); // Draw concentric circle, change radius based on circle index
+  
+pop();
+        drawingContext.setLineDash([]); // Reset line style
     }
 }
+
+    
 //绘制小椭圆和连线
 function drawSmallEllipses() {
     let smallEllipses = [];
@@ -115,13 +149,13 @@ function drawGradientArc2() {
             push();
             translate((j + 0.5 * (i % 2)) * (sideLength + gap * 4), i * (sideLength + gap) + sideLength / 2); // 将原点移动到每个大圆的中心
             if (!(i % 2 === 0 && j % 2 !== 0) && !(i % 2 !== 0 && j % 2 === 0)) {
-                let arcStartAngle = 180; 
-                let arcEndAngle = 360; 
+                let arcStartAngle = sin(frameCount) * 180; //弧线生成
+                let arcEndAngle = sin(frameCount) * 360; 
                 for (let i = arcStartAngle; i <= arcEndAngle; i++) {
                     let t = map(i, arcStartAngle, arcEndAngle, 0, 1); // 将角度映射到0和1之间
-                    let gradientColor = lerpColor(color('#DFFFFB'), color('#FFD6EB'), t); // 获取插值颜色
+                    let gradientColor = lerpColor(color('#DFFFFB'), color('#FFD6EB'), t); // 获取插值颜色、
                     stroke(gradientColor); // 设置描边颜色为插值颜色
-                    strokeWeight(7); 
+                    strokeWeight(10); 
                     noFill();
                     arc(sideLength - gap * 8, 0, sideLength + gap * 4, sideLength * 1, i, i + 1); // 绘制一个小段的弧线
                 }
@@ -157,7 +191,7 @@ function drawConcentricCircles() {
 }
 
 function setup() {
-    createCanvas(800, 800);
+    createCanvas(1000, 1000);
     angleMode(DEGREES); // 将角度模式更改为度数
     genRundomColors(); // 生成随机色值
 }
@@ -166,4 +200,5 @@ function draw() {
     background('#000000');
     drawConcentricCircles();
 }
+
 
