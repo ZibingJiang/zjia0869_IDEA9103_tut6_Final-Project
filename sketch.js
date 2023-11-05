@@ -1,14 +1,15 @@
 let sideLength = 200; // 大圆的直径
 let gap = 10; // 大圆之间的间隔
-let rows = 5; // 行数
+let rows = 5; // 行数  
 let cols = 5; // 列数
-let rotationSpeed = 0.01; // 自旋速度
-let smallEllipseDiameter = 14; // 小椭圆的直径
-let smallEllipseCount = 12; // 每个大圆的小椭圆数量
+let rotationSpeed = 1; // 自旋速度
+let smallEllipseDiameter = 16; // 小椭圆的直径
+let smallEllipseCount = 18; // 每个大圆的小椭圆数量
 let smallEllipseDistance = 20; // 小椭圆距离大圆的距离
 let concentricCircles = 4; // 同心圆的数量
 let concentricCircleColors = []; // 同心圆的颜色
 let dottedCircles = 3; // 每层同心圆虚线环的数量
+
 
 
 function genRundomColors() {
@@ -17,7 +18,7 @@ function genRundomColors() {
         for (let j = 0; j < cols; j++) {
             concentricCircleColors[i].push([]);
             for (let k = 0; k < concentricCircles; k++) {
-                concentricCircleColors[i][j].push(color(random(255), random(255), random(255)));
+                concentricCircleColors[i][j].push(color(random(20,180), random(200,255), random(200,255)));
             }
         }
     }
@@ -28,9 +29,9 @@ function getContrastColor(hexColor) {
     let r = red(c); 
     let g = green(c); 
     let b = blue(c); 
-    let contrastR = 255 - r;
-    let contrastG = 255 - g;
-    let contrastB = 255 - b;
+    let contrastR = 255 - r + 100;
+    let contrastG = 255 - g + 100;
+    let contrastB = 255 - b + 150;
     return color(contrastR, contrastG, contrastB);
 }
 //绘制波浪形状的圆
@@ -43,7 +44,7 @@ function drawWaveCircle(i, j, k, radius) {
     stroke(getContrastColor(concentricCircleColors[i][j][k])); // 设置描边颜色
     strokeWeight(1); 
     for (let angle = 0; angle < 360; angle += 0.5) {
-        let r = radius * 0.85 + 12 * sin(80 * angle); 
+        let r = radius * 0.85 + 12 * sin(60 * angle); 
         let x = r * cos(angle);
         let y = r * sin(angle);
         vertex(x, y);
@@ -66,10 +67,10 @@ function drawDottedCircle(i, j, k, radius) {
         push();
         rotate(frameCount / (50.0 / (k + 50))); // 旋转速度
         stroke(getContrastColor(concentricCircleColors[i][j][k])); 
-        strokeWeight(8 - k); // 设置描边宽度
+        strokeWeight(7 - k); // 设置描边宽度
         noFill(); 
         // 设置虚线样式，根据圆的索引改变虚线的间隔
-        drawingContext.setLineDash([5, 10 + k]);
+        drawingContext.setLineDash([3, 8.5 - k]);
         ellipse(0, 0, radius * 2 - 10 - 20 * n); // 绘制同心圆，根据圆的索引改变半径
         pop();
         drawingContext.setLineDash([]); // 重置虚线样式
@@ -81,15 +82,15 @@ function drawSmallEllipses() {
     for (let k = 0; k < smallEllipseCount; k++) {
         let angle = map(k, 0, smallEllipseCount, 0, 360);
         let x = (sideLength / 2 + smallEllipseDistance) * cos(angle + smallEllipseDistance);
-        let y = (sideLength / 2 + smallEllipseDistance) * sin(angle + smallEllipseDistance * 1.5);
+        let y = (sideLength / 2 + smallEllipseDistance) * sin(angle + smallEllipseDistance);
         smallEllipses.push({ x, y });
     }
     // 绘制小椭圆之间曲线
-    stroke('#E8670D');
-    strokeWeight(3);
+    stroke('#F1257D');
+    strokeWeight(6);
     noFill();
     beginShape();
-    drawingContext.setLineDash([3, 4]);
+    drawingContext.setLineDash([3, 10]);
     for (let l = 0; l < smallEllipseCount; l++) {
         curveVertex(smallEllipses[l].x, smallEllipses[l].y);
     }
@@ -100,7 +101,7 @@ function drawSmallEllipses() {
         // 绘制渐变小椭圆
         for (let i = 0; i <= ellipseRadius; i++) {
             let t = map(i, 0, ellipseRadius, 0, 1); // 将半径映射到0和1之间
-            let gradientColor = lerpColor(color(255), color(0), t); // 获取插值颜色
+            let gradientColor = lerpColor(color('#00FFE1'), color('#FF69B6'), t); // 获取插值颜色
             fill(gradientColor); // 设置填充颜色为插值颜色
             noStroke(); 
             ellipse(smallEllipses[l].x, smallEllipses[l].y, smallEllipseDiameter - i, smallEllipseDiameter - i);
@@ -118,9 +119,9 @@ function drawGradientArc2() {
                 let arcEndAngle = 360; 
                 for (let i = arcStartAngle; i <= arcEndAngle; i++) {
                     let t = map(i, arcStartAngle, arcEndAngle, 0, 1); // 将角度映射到0和1之间
-                    let gradientColor = lerpColor(color(0, 255, 0), color(255, 0, 0), t); // 获取插值颜色
+                    let gradientColor = lerpColor(color('#DFFFFB'), color('#FFD6EB'), t); // 获取插值颜色
                     stroke(gradientColor); // 设置描边颜色为插值颜色
-                    strokeWeight(5); 
+                    strokeWeight(7); 
                     noFill();
                     arc(sideLength - gap * 8, 0, sideLength + gap * 4, sideLength * 1, i, i + 1); // 绘制一个小段的弧线
                 }
@@ -139,7 +140,7 @@ function drawConcentricCircles() {
             // 绘制同心圆
             for (let k = 0; k < concentricCircles; k++) {
                 let radius = sideLength / 2 - k * (sideLength / (1.6 * concentricCircles));
-                fill(concentricCircleColors[i][j][k]); // 设置填充颜色为随机色
+                fill(concentricCircleColors[i][j][k]); // 设置填充颜色为随机色 // 设置填充颜色为随机色
                 noStroke();
                 ellipse(0, 0, radius * 2, radius * 2); // 绘制同心圆
                 if (i % 2 === 0 && j % 2 !== 0) {
@@ -162,7 +163,7 @@ function setup() {
 }
 
 function draw() {
-    background(102);
+    background('#000000');
     drawConcentricCircles();
 }
 
