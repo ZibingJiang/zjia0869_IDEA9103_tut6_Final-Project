@@ -177,7 +177,7 @@ function drawConcentricCircles() {
             // 绘制同心圆
             for (let k = 0; k < concentricCircles; k++) {
                 let radius = sideLength / 2 - k * (sideLength / (1.6 * concentricCircles));
-                fill(concentricCircleColors[i][j][k]); // 设置填充颜色为随机色 // 设置填充颜色为随机色
+                fill(concentricCircleColors[i][j][k]); 
                 noStroke();
                 ellipse(0, 0, radius * 2-mouseY/8, radius * 2-mouseY/8); // 绘制同心圆 //通过移动mouseY改变圆的大小
                 if (i % 2 === 0 && j % 2 !== 0) {
