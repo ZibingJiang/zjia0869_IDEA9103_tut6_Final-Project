@@ -198,6 +198,26 @@ function setup() {
     angleMode(DEGREES); // 将角度模式更改为度数
     genRundomColors(); // 生成随机色值
 }
+//方向键控制转速和小圆离大圆的距离
+function keyPressed() {
+    if (keyCode === UP_ARROW) {
+       
+        rotationSpeed += 0.1; 
+    }
+    if (keyCode === DOWN_ARROW) {
+       
+        rotationSpeed -= 0.1; 
+    }
+    if (keyCode === RIGHT_ARROW) {
+        
+        smallEllipseDistance += 5; 
+    }
+    if (keyCode === LEFT_ARROW) {
+        
+        smallEllipseDistance -= 5; 
+    }
+}
+
 
 function draw() {
     background('#000000');
