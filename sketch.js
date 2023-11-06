@@ -10,6 +10,8 @@ let concentricCircles = 4; // 同心圆的数量
 let concentricCircleColors = []; // 同心圆的颜色
 let dottedCircles = 3; // 每层同心圆虚线环的数量
 
+
+
 function genRundomColors() {
     for (let i = 0; i < rows; i++) {
         concentricCircleColors.push([]);
@@ -27,7 +29,7 @@ function getContrastColor(hexColor) {
     let r = red(c); 
     let g = green(c); 
     let b = blue(c); 
-    let contrastR = 255 - r + 150+mouseX/5; //通过移动mouseX变换颜色
+    let contrastR = 255 - r + 150+mouseX/5;
     let contrastG = 255 - g + 50+mouseX/10;
     let contrastB = 255 - b + 150-mouseX/10;
     return color(contrastR, contrastG, contrastB);
@@ -41,7 +43,7 @@ push();
     
    
 noFill();
-    stroke(getContrastColor(concentricCircleColors[i][j][k])); 
+    stroke(getContrastColor(concentricCircleColors[i][j][k])); // Set stroke color
     
    
 strokeWeight(2);
@@ -84,7 +86,7 @@ for (let n = 0; n < dottedCircles && k < concentricCircles - 1; n++) {
       
 push();      
        
-rotate(frameCount / (50.0 / (k + 50))); // 转速
+rotate(frameCount / (50.0 / (k + 50))); // Rotation speed       
        
 stroke(getContrastColor(concentricCircleColors[i][j][k])); 
       
@@ -156,7 +158,7 @@ function drawGradientArc2() {
                     let t = map(i, arcStartAngle, arcEndAngle, 0, 1); // 将角度映射到0和1之间
                     let gradientColor = lerpColor(color('#E1FFFB'), color('#FFD6EB'), t); // 获取插值颜色、
                     stroke(gradientColor); // 设置描边颜色为插值颜色
-                    strokeWeight(10); 
+                    strokeWeight(10+ mouseY/20); 
                     noFill();
                     arc(sideLength - gap * 8, 0, sideLength + gap * 4, sideLength * 1, i, i + 1); // 绘制一个小段的弧线
                 }
