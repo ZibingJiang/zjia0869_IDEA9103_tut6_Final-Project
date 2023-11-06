@@ -38,12 +38,12 @@ function getContrastColor(hexColor) {
 function drawWaveCircle(i, j, k, radius) {
     
 push();
-    rotate(frameCount / (50.0 / (j + 50))); // Rotation speed
+    rotate(frameCount / (50.0 / (j + 50))); // 转速
     beginShape();
     
    
 noFill();
-    stroke(getContrastColor(concentricCircleColors[i][j][k])); // Set stroke color
+    stroke(getContrastColor(concentricCircleColors[i][j][k])); 
     
    
 strokeWeight(2);
@@ -86,8 +86,8 @@ for (let n = 0; n < dottedCircles && k < concentricCircles - 1; n++) {
       
 push();      
        
-rotate(frameCount / (50.0 / (k + 50))); // Rotation speed       
-       
+rotate(frameCount / (50.0 / (k + 50))); 
+
 stroke(getContrastColor(concentricCircleColors[i][j][k])); 
       
 strokeWeight(7 - k); 
