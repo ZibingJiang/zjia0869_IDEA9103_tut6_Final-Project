@@ -10,8 +10,6 @@ let concentricCircles = 4; // 同心圆的数量
 let concentricCircleColors = []; // 同心圆的颜色
 let dottedCircles = 3; // 每层同心圆虚线环的数量
 
-
-
 function genRundomColors() {
     for (let i = 0; i < rows; i++) {
         concentricCircleColors.push([]);
@@ -29,9 +27,9 @@ function getContrastColor(hexColor) {
     let r = red(c); 
     let g = green(c); 
     let b = blue(c); 
-    let contrastR = 255 - r + 150;
-    let contrastG = 255 - g + 50;
-    let contrastB = 255 - b + 150;
+    let contrastR = 255 - r + 150+mouseX/5; //通过移动mouseX变换颜色
+    let contrastG = 255 - g + 50+mouseX/10;
+    let contrastB = 255 - b + 150-mouseX/10;
     return color(contrastR, contrastG, contrastB);
 }
 //绘制波浪形状的圆
@@ -43,7 +41,7 @@ push();
     
    
 noFill();
-    stroke(getContrastColor(concentricCircleColors[i][j][k])); // Set stroke color
+    stroke(getContrastColor(concentricCircleColors[i][j][k])); 
     
    
 strokeWeight(2);
@@ -86,7 +84,7 @@ for (let n = 0; n < dottedCircles && k < concentricCircles - 1; n++) {
       
 push();      
        
-rotate(frameCount / (50.0 / (k + 50))); // Rotation speed       
+rotate(frameCount / (50.0 / (k + 50))); // 转速
        
 stroke(getContrastColor(concentricCircleColors[i][j][k])); 
       
@@ -179,7 +177,7 @@ function drawConcentricCircles() {
                 let radius = sideLength / 2 - k * (sideLength / (1.6 * concentricCircles));
                 fill(concentricCircleColors[i][j][k]); // 设置填充颜色为随机色 // 设置填充颜色为随机色
                 noStroke();
-                ellipse(0, 0, radius * 2+mouseY/10, radius * 2+mouseY/10); // 绘制同心圆 //通过移动mouseY改变圆的大小
+                ellipse(0, 0, radius * 2-mouseY/8, radius * 2-mouseY/8); // 绘制同心圆 //通过移动mouseY改变圆的大小
                 if (i % 2 === 0 && j % 2 !== 0) {
                     drawWaveCircle(i, j, k, radius);
                 } else {
@@ -203,5 +201,7 @@ function draw() {
     background('#000000');
     drawConcentricCircles();
 }
+
+
 
 
