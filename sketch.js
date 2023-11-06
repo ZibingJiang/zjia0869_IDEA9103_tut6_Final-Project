@@ -149,8 +149,8 @@ function drawGradientArc2() {
             push();
             translate((j + 0.5 * (i % 2)) * (sideLength + gap * 4), i * (sideLength + gap) + sideLength / 2); // 将原点移动到每个大圆的中心
             if (!(i % 2 === 0 && j % 2 !== 0) && !(i % 2 !== 0 && j % 2 === 0)) {
-                let arcStartAngle = sin(frameCount) * 180; //弧线生成
-                let arcEndAngle = sin(frameCount) * 360; 
+                let arcStartAngle = sin(millis()/100); //生成圆弧
+                let arcEndAngle = sin(millis()/30) * 180; 
                 for (let i = arcStartAngle; i <= arcEndAngle; i++) {
                     let t = map(i, arcStartAngle, arcEndAngle, 0, 1); // 将角度映射到0和1之间
                     let gradientColor = lerpColor(color('#DFFFFB'), color('#FFD6EB'), t); // 获取插值颜色、
