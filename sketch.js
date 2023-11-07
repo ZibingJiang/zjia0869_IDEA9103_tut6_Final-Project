@@ -202,11 +202,11 @@ function setup() {
 function keyPressed() {
     if (keyCode === UP_ARROW) {
        
-        rotationSpeed += 0.1; 
+        rotationSpeed += 0.5; 
     }
     if (keyCode === DOWN_ARROW) {
        
-        rotationSpeed -= 0.1; 
+        rotationSpeed -= 0.5; 
     }
     if (keyCode === RIGHT_ARROW) {
         
