@@ -6,7 +6,7 @@
 4. The left and right keys control the distance between the big circle and the small circle connected by the dotted line.
 
 ### Renderings
-<img src="README IMAGE/1.png" width="50%" height="50%" /> <img src="README IMAGE/2.png" width="50%" height="50%" />
-<img src="README IMAGE/3.png" width="50%" height="50%" /> <img src="README IMAGE/4.png" width="50%" height="50%" />
-<img src="README IMAGE/5.png" width="50%" height="50%" />
+<img src="README IMAGE/1.png" width="40%" height="40%" /> <img src="README IMAGE/2.png" width="40%" height="40%" />
+<img src="README IMAGE/3.png" width="40%" height="40%" /> <img src="README IMAGE/4.png" width="40%" height="40%" />
+<img src="README IMAGE/5.png" width="40%" height="40%" />
 
